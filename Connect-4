@@ -1,53 +1,42 @@
-class Player:
-    
-    def __init__(n, i):
-        self.name = n
-        self.score = 0
-        self.icon = i
+icons, booly="01",0
+bwidth , bheight=7,6
 
-
-
-
-
-icons=[Player("leo", '&'),Player("paul",'X')]
-booly=0
-width=7
-height=6
-
-board=["+" for i in range(width*height)]
-def matrixprint(b):
-    for i in range(width*height):
-        print(b[i], end=' ')
-        if (i+1)%width==0:
+board = ['+' for i in range(bwidth*bheight)] #stores data
+def matrixprint(arg1): #vs shapes data
+    for i in range(bwidth*bheight):
+        print(arg1[i],end =' ')
+        if ((i+1)%bwidth)==0:
             print()
+        
+matrixprint(board)
+
 win=False
-while win==False:
-    matrixprint(board) #update board state (visually)
-    x=int(input('your move cowboy'))-1 #input always gunbe string
-#     print(x)
-    if x<0 or x>width:
-        continue #continue is 'continue to the next iteration of the same loop.
-   
-   
-    for y in range(height+1):
-        if (y*width+x)>(width*height)-1 or board[y*width+x] != '+':
-            board[(y-1)*width+x] = icons[booly].icon
+while win == False:
+    matrixprint(board)
+    x=int(input('go player  '+ icons[booly]+ '    '))-1
+    if x<0 or x>bwidth-1:
+        continue
+    
+    for y in range(bheight+1):
+        if (y*bwidth+x)>(bwidth*bheight)-1 or board[y*bwidth+x] != '+':
+            board[(y-1)*bwidth+x]= icons[booly]
             booly=not booly
             break
-            
-    for i in range(width*height):
-        sx,sy = i%width,i//width
-        for drtcn in [[0,1],[1,0],[1,1],[1,-1]]:
-            acc=0
-            for e_d in range(4):
-                cx = sx+drtcn[0]*e_d
-                cy = sy+drtcn[1]*e_d
-                if 0<=cx<width and 0<=cy<height:
-                    if board[cy*width+cx]==icons[not booly]:
-                        acc+=1
+
+    for i in range(bwidth*bheight):
+        sx,sy = i%bwidth,i//bwidth
+        for d in [[0,1],[1,0],[1,1],[1,-1]]:
+            accu=0
+            for ed in range(4):
+                cx= sx+d[0]*ed
+                cy= sy+d[1]*ed
+                if (cy*bwidth+cx)>=0 and (cy*bwidth+cx)<(bwidth*bheight):
+                    if board[cy*bwidth+cx]==icons[not booly]:
+                        accu+=1
                 else:
                     break
-            if acc==4:
-                print('player', icons[not booly], ' wins')
+            
+            if accu==4:
                 matrixprint(board)
-                win=True
+                win= True
+                break
