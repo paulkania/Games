@@ -1,4 +1,15 @@
-icons='X&'
+class Player:
+    
+    def __init__(n, i):
+        self.name = n
+        self.score = 0
+        self.icon = i
+
+
+
+
+
+icons=[Player("leo", '&'),Player("paul",'X')]
 booly=0
 width=7
 height=6
@@ -20,7 +31,7 @@ while win==False:
    
     for y in range(height+1):
         if (y*width+x)>(width*height)-1 or board[y*width+x] != '+':
-            board[(y-1)*width+x] = icons[booly]
+            board[(y-1)*width+x] = icons[booly].icon
             booly=not booly
             break
             
