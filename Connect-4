@@ -1,45 +1,42 @@
-p,m =0, ['-' for i in range(16)]
-# print(m)
-pieces = "@o" #nice pieces
+icons='X&'
+booly=0
+width=7
+height=6
 
-while True:
-    for r in range(16):
-        print(m[r], end='  ')
-        print() if (r+1)%4==0 else None #neat lil trick
-
-    inp, i = int(input("1,2,3 or 4: "))-1, 1 #i like the -1
-
-    if 0>i>=4:
-        continue#otherwise, thou shalt not pass.
-    
-    #add piece to correct place in the column chosen
-    while True:
-        
-        #it represents itterating the column downwards of the chosen column
-        # remember    y*width + x
-        # for matrices y*width+x comes in clutch
-          #y*w+x
-        if i*4+inp> 15 or m[i*4+inp] != "-": #i see! the "-" makes it click.
-            m[(i-1) * 4 + inp] = pieces[p]
-            # p = not p #this i dont understand
+board=["+" for i in range(width*height)]
+def matrixprint(b):
+    for i in range(width*height):
+        print(b[i], end=' ')
+        if (i+1)%width==0:
+            print()
+win=False
+while win==False:
+    matrixprint(board) #update board state (visually)
+    x=int(input('your move cowboy'))-1 #input always gunbe string
+#     print(x)
+    if x<0 or x>width:
+        continue #continue is 'continue to the next iteration of the same loop.
+   
+   
+    for y in range(height+1):
+        if (y*width+x)>(width*height)-1 or board[y*width+x] != '+':
+            board[(y-1)*width+x] = icons[booly]
+            booly=not booly
             break
-        i+=1
-
-    #check all lines similar to euler 11 for win
-    for s in range(16):
-        for dir in [[1,0],[1,1],[0,1],[-1,1]]:
-            four = 0    # <-- if this is 4 after loop below line has been made
-            for n in range(4):
-                x, y = s%4+(dir[0]*n), s//4+(dir[1]*n)
-                if 0<=x<4 and 0<=y<4:
-                    four = four + 1 if m[y*4+x] == pieces[not p] else four#link?
+            
+    for i in range(width*height):
+        sx,sy = i%width,i//width
+        for drtcn in [[0,1],[1,0],[1,1],[1,-1]]:
+            acc=0
+            for e_d in range(4):
+                cx = sx+drtcn[0]*e_d
+                cy = sy+drtcn[1]*e_d
+                if 0<=cx<width and 0<=cy<height:
+                    if board[cy*width+cx]==icons[not booly]:
+                        acc+=1
                 else:
-                    break #this breaks to dir for loop
-
-            if four == 4:
-                print("\nPlayer "+ pieces[not p]+" Wins! \n")
-                break
-
-
-
-
+                    break
+            if acc==4:
+                print('player', icons[not booly], ' wins')
+                matrixprint(board)
+                win=True
