@@ -1,0 +1,19 @@
+day =1
+month = 1
+year = 1776
+# this transcribes to jan 1, 1776
+
+g = int(input('how many days do you want to bounce'))+1
+it=1
+while it != g:
+    it += 1
+    day +=1
+    if day == 31:
+        month+=1
+        day=1
+    if month == 13:
+        year +=1
+        day=1
+        month=1
+        
+print(day,month,year)
