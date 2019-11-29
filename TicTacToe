@@ -1,0 +1,21 @@
+import math as mm
+
+pieces_s = 'XO'
+turn_b = 0
+size=9
+
+def board(size):
+    for i in range(size):
+        print('+', end='  ')
+        if (i+1)%(int(mm.sqrt(size)))==0:
+            print()
+            
+while True:
+    board(size)
+    x = int(input('places your piece at piece 1 tosize')) -1
+    if x<0 or x>size:
+        continue
+    
+    if x != '+' and x != pieces_s[0] and x != pieces_s[1]:
+        board[x] = pieces_s[turn_b]
+        turn_b = not turn_b 
