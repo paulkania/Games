@@ -4,18 +4,55 @@ pieces_s = 'XO'
 turn_b = 0
 size=9
 
-def board(size):
-    for i in range(size):
-        print('+', end='  ')
-        if (i+1)%(int(mm.sqrt(size)))==0:
-            print()
-            
-while True:
-    board(size)
-    x = int(input('places your piece at piece 1 tosize')) -1
+dim = int(mm.sqrt(size))
+board_data = ['+' for i in range(size)]
+
+
+def board(myboard):
+    for i in range(len(myboard)):
+            print(myboard[i], end='  ')
+            if (i+1)%(dim)==0:
+                print()
+
+             
+win = False
+while win != True:
+    board(board_data)
+    x = int(input('player  '+pieces_s[turn_b]+'  go  ')) -1
     if x<0 or x>size:
+       print('Rule Broken: Play within Bounds')
+       continue
+    if board_data[x] == 'X' or board_data[x] == 'O': 
+        print('Rule Broken: Play on an empty tile')
         continue
+        
+    board_data[x] = pieces_s[turn_b]
+    turn_b = not turn_b
     
-    if x != '+' and x != pieces_s[0] and x != pieces_s[1]:
-        board[x] = pieces_s[turn_b]
-        turn_b = not turn_b 
+    for i in range(size):
+        sx,sy = i%dim,i//dim
+        for d in [[0,1],[1,0],[1,1],[1,-1]]:
+            accu=0
+            for ed in range(3):
+                cx= sx+d[0]*ed
+                cy= sy+d[1]*ed
+                if (cy*dim+cx)>=0 and (cy*dim+cx)<(size):
+                    if board_data[cy*dim+cx]==pieces_s[not turn_b]:
+                        accu+=1
+                else:
+                    break
+            
+            if accu==3:
+                board(board_data)
+                print('player', pieces_s[not turn_b],'wins')
+                win= True
+                break    
+        
+        
+        
+        
+        
+        
+        
+        
+        
